@@ -1,0 +1,13 @@
+.main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    .chat__wrapper{
+        width: 35%;
+        min-width: 300px;
+    }
+    .dialog__wrapper{
+        width: 65%;
+    }
+}

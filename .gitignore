@@ -10,6 +10,13 @@
 # dependencies
 /node_modules
 
+# Firebase
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
+storage.rules
+
 # profiling files
 chrome-profiler-events*.json
 speed-measure-plugin*.json
@@ -21,7 +28,6 @@ speed-measure-plugin*.json
 .c9/
 *.launch
 .settings/
-*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
@@ -32,7 +38,6 @@ speed-measure-plugin*.json
 .history/*
 
 # misc
-/.sass-cache
 /connect.lock
 /coverage
 /libpeerconnection.log
@@ -44,3 +49,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+debug.log

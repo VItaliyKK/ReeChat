@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+@import './app/shared/styles/variables.scss';
+@import './app/shared/styles/reset.scss';
+@import './app/shared/styles/mixins.scss';
+
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url(./assets/fonts/Montserrat-Regular.ttf);
+};
+
+body{
+    font-family: var(--main-font-family), 'Segoe UI', sans-serif;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.user__icon{
+    position: relative;
+    @include UserIcon();
+    &.not__mark{
+        &::after{
+            content: none;
+        }
+    }
+    &::after{
+        content: '';
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        bottom: -4px;
+        right: -4px;
+        background-image: url(./assets/images/mark-icon.png);
+        background-size: cover;
+    }    
+}

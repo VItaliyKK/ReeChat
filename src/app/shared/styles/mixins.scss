@@ -1,0 +1,8 @@
+@mixin UserIcon() {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    margin-right: 15px;
+}

@@ -1,0 +1,69 @@
+<section class="dialog__content">
+    <div class="dialog__header">
+        <div class="user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+        <span class="dialog__header__user__name">dialog__header__user__name</span>
+    </div>
+    <div class="dialog__messages__wrapper">
+        <div class="dialog__messages__content">
+            <div class="message__wrapper" [ngClass]="{'authorized__user': false ? true : false}">
+                <div class="user__icon not__mark" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                <div class="message__content">
+                    <p>4/22/20 4:10 AM message__content</p>
+                    <time>4/22/20 4:10 AM</time>
+                </div>
+            </div>
+            <div class="message__wrapper" [ngClass]="{'authorized__user': false ? true : false}">
+                <div class="user__icon not__mark" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                <div class="message__content">
+                    <p>message__content message__content</p>
+                    <time>4/22/20 4:10 AM</time>
+                </div>
+            </div>
+            <div class="message__wrapper" [ngClass]="{'authorized__user': true ? true : false}">
+                <div class="user__icon not__mark" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                <div class="message__content">
+                    <p>4/22/20 4:10 AM 4/22/20 4:10 AM</p>
+                    <time>4/22/20 4:10 AM</time>
+                </div>
+            </div>
+            <div class="message__wrapper" [ngClass]="{'authorized__user': false ? true : false}">
+                <div class="user__icon not__mark" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                <div class="message__content">
+                    <p>message__content message__content</p>
+                    <time>4/22/20 4:10 AM</time>
+                </div>
+            </div>
+            <div class="message__wrapper" [ngClass]="{'authorized__user': true ? true : false}">
+                <div class="user__icon not__mark" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                <div class="message__content">
+                    <p>message__content message__content</p>
+                    <time>4/22/20 4:10 AM</time>
+                </div>
+            </div>
+            <div class="message__wrapper" [ngClass]="{'authorized__user': false ? true : false}">
+                <div class="user__icon not__mark" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                <div class="message__content">
+                    <p>jhj-09 -09-09-09-0</p>
+                    <time>4/22/20 4:10 AM</time>
+                </div>
+            </div>
+            <div class="message__wrapper" [ngClass]="{'authorized__user': true ? true : false}">
+                <div class="user__icon not__mark" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                <div class="message__content">
+                    <p>32 33 jkhjhjkh</p>
+                    <time>4/22/20 4:10 AM</time>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog__send__message__wrapper">
+        <div class="dialog__send__message">
+            <input type="text" placeholder="Type your message">
+            <button class="dialog__send__message__button" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="none" d="M0 0h24v24H0V0z"></path><path d="M4.01 6.03l7.51 3.22-7.52-1 .01-2.22m7.5 8.72L4 17.97v-2.22l7.51-1M2.01 3L2 10l15 2-15 2 .01 7L23 12 2.01 3z" fill="#939393"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,92 @@
+<section class="chats__wrapper">
+    <div class="chat__content">
+        <div class="chat__content__header">
+            <div class="user__info">
+                <div class="user__info__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                <span class="user__info__name">user__info__name</span>
+            </div>
+            <div class="search__wrapper">
+                <input type="text" id="search__user__input" [(ngModel)]="ddd" name="ddd" placeholder="Search or start new chat">
+                <label for="search__user__input"></label>
+            </div>
+        </div>
+        <div class="chat__header">
+            <h2>Chats</h2>
+        </div>
+        <ul class="chat__list">
+            <li class="chat__list__link">
+                <a class="chat" [routerLink]="['/chats/', 20202]">  
+                    <div class="chat__icon__and__info">
+                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                        <div class="chat__user__info">
+                            <h3 class="chat__user__info__name">User Name</h3>
+                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
+                        </div>
+                    </div>
+                    <time class="chat__user__date">Jun 12, 2020</time>
+                </a>
+            </li>
+            <li class="chat__list__link">
+                <a class="chat">
+                    <div class="chat__icon__and__info">
+                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                        <div class="chat__user__info">
+                            <h3 class="chat__user__info__name">User Name</h3>
+                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
+                        </div>
+                    </div>
+                    <time class="chat__user__date">Jun 12, 2020</time>
+                </a>
+            </li>
+            <li class="chat__list__link">
+                <a class="chat">
+                    <div class="chat__icon__and__info">
+                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                        <div class="chat__user__info">
+                            <h3 class="chat__user__info__name">User Name</h3>
+                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
+                        </div>
+                    </div>
+                    <time class="chat__user__date">Jun 12, 2020</time>
+                </a>
+            </li>
+            <li class="chat__list__link">
+                <a class="chat">
+                    <div class="chat__icon__and__info">
+                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                        <div class="chat__user__info">
+                            <h3 class="chat__user__info__name">User Name</h3>
+                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
+                        </div>
+                    </div>
+                    <time class="chat__user__date">Jun 12, 2020</time>
+                </a>
+            </li>
+            <li class="chat__list__link">
+                <a class="chat">
+                    <div class="chat__icon__and__info">
+                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                        <div class="chat__user__info">
+                            <h3 class="chat__user__info__name">User Name</h3>
+                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
+                        </div>
+                    </div>
+                    <time class="chat__user__date">Jun 12, 2020</time>
+                </a>
+            </li>
+            <li class="chat__list__link">
+                <a class="chat">
+                    <div class="chat__icon__and__info">
+                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                        <div class="chat__user__info">
+                            <h3 class="chat__user__info__name">User Name</h3>
+                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
+                        </div>
+                    </div>
+                    <time class="chat__user__date">Jun 12, 2020</time>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <router-outlet></router-outlet>
+</section>
