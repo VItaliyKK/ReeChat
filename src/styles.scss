@@ -16,6 +16,7 @@ body{
 
 .user__icon{
     position: relative;
+    flex-shrink: 0;
     @include UserIcon();
     &.not__mark{
         &::after{

@@ -19,60 +19,44 @@ export class SingupComponent implements OnInit {
   passwordInput:string = ''
   authStateListener: Subscription
 
-  constructor(private authService: SocialAuthService, 
+  constructor(private socialAuthService: SocialAuthService, 
               private authServ: AuthService,
               private router: Router) { }
 
   ngOnInit() {
-    // this.authStateListener = this.authService.authState.subscribe( user => {
-    //   this.authServ.loggedIn = (user != null);
-    //   this.authServ.currentUser = user
-    //   this.authServ.setLocalStorageUser(user) 
-    //   this.router.navigateByUrl('/chats')
-    //   console.log(user)
-    // })
-  };
-
-  // ngOnDetroy(){
-  //   this.authStateListener.unsubscribe()
-  // }
-
-  singUpWithProviders(us:SocialUser){
-    console.log(us)
-    this.authServ.loggedIn = (us != null);
-    this.authServ.currentUser = us
-    this.authServ.setLocalStorageUser(us) 
-    this.authServ.addNewUserInDatabase({
-      email: us.email, 
-      firstName: us.firstName,
-      lastName: us.lastName,
-      id: us.id,
-      photoUrl: us.photoUrl}).then( () => {
-        this.router.navigateByUrl('/chats')
-      })
   };
 
   signInWithGoogle(): void { 
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
+    this.authStateListener = this.socialAuthService.authState.subscribe( user => {
+      this.authServ.processReceivedData(user)
+    })
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then( user => {
+      this.authServ.singUpWithProviders(user)
+    })
+  };
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  }
+    this.authStateListener = this.socialAuthService.authState.subscribe( user => {
+      this.authServ.processReceivedData(user)
+    })
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then( user => {
+      this.authServ.singUpWithProviders(user)
+    })
+  };
 
   signOut(): void {
-    this.authService.signOut();
-  }
+    this.socialAuthService.signOut();
+  };
 
+  // registration user through the form
   singUp(){
     let newUser:IUser = {
       email: this.emailInput,
       firstName: this.firstNameInput,
       lastName: this.lastNameInput,
       id: '',
-      photoUrl: '',
-      password: this.passwordInput
-    }
+      photoUrl: ''
+    };
     // create new user in list of registered users
     this.authServ.singUp(newUser).then( data => {
       newUser.id = data.user.uid
@@ -83,7 +67,6 @@ export class SingupComponent implements OnInit {
           this.loginError = ''
           this.authServ.setLocalStorageUser(newUser)
           this.authServ.currentUser = newUser
-          // this.resetForm()
           this.router.navigateByUrl('/chats')
         }).catch(error => {
           this.loginError = error.message
@@ -95,11 +78,4 @@ export class SingupComponent implements OnInit {
       this.loginError = error.message
     })
   };
-
-  // resetForm(){
-  //   this.emailInput = ''
-  //   this.firstNameInput = ''
-  //   this.lastNameInput = ''
-  //   this.passwordInput = ''
-  // };
 }

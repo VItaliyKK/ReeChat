@@ -7,87 +7,45 @@
                 <button class="user__info__logout" (click)="logOut()"></button>
             </div>
             <div class="search__wrapper">
-                <input type="text" id="search__user__input" [(ngModel)]="searchValue" name="searchValue" placeholder="Search or start new chat">
-                <label for="search__user__input"></label>
+                <input type="text" id="search__chats__input" (input)="onChangeSearchChats()" [(ngModel)]="searchValue" name="searchValue" placeholder="Search or start new chat">
+                <label for="search__chats__input"></label>
             </div>
         </div>
         <div class="chat__header">
             <h2>Chats</h2>
         </div>
-        <ul class="chat__list">
-            <li class="chat__list__link">
-                <a class="chat" [routerLink]="['/chats/', 20202]">  
+        <ul class="chat__list" *ngIf="!searching">
+            <p *ngIf="chatsEmpty" class="chats__empty">You have not any chats</p>
+            <li class="chat__list__link" *ngFor="let chat of chats; index as i">
+                <a class="chat" [routerLink]="['/chats/', chat.id]">  
                     <div class="chat__icon__and__info">
-                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
+                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': chat.photoUrl ? 'url(' + chat.photoUrl + ')' : 'url(../../../assets/images/default-profile-icon.png)'}"></div>
                         <div class="chat__user__info">
-                            <h3 class="chat__user__info__name">User Name</h3>
-                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
-                        </div>
+                            <h3 class="chat__user__info__name">{{chat.firstName + ' ' + chat.lastName}}</h3>
+                            <p class="chat__user__info__lastMessage">{{chat.lastMessage}}</p>
+                        </div> 
                     </div>
-                    <time class="chat__user__date">Jun 12, 2020</time>
-                </a>
-            </li>
-            <li class="chat__list__link">
-                <a class="chat">
-                    <div class="chat__icon__and__info">
-                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
-                        <div class="chat__user__info">
-                            <h3 class="chat__user__info__name">User Name</h3>
-                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
-                        </div>
-                    </div>
-                    <time class="chat__user__date">Jun 12, 2020</time>
-                </a>
-            </li>
-            <li class="chat__list__link">
-                <a class="chat">
-                    <div class="chat__icon__and__info">
-                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
-                        <div class="chat__user__info">
-                            <h3 class="chat__user__info__name">User Name</h3>
-                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
-                        </div>
-                    </div>
-                    <time class="chat__user__date">Jun 12, 2020</time>
-                </a>
-            </li>
-            <li class="chat__list__link">
-                <a class="chat">
-                    <div class="chat__icon__and__info">
-                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
-                        <div class="chat__user__info">
-                            <h3 class="chat__user__info__name">User Name</h3>
-                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
-                        </div>
-                    </div>
-                    <time class="chat__user__date">Jun 12, 2020</time>
-                </a>
-            </li>
-            <li class="chat__list__link">
-                <a class="chat">
-                    <div class="chat__icon__and__info">
-                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
-                        <div class="chat__user__info">
-                            <h3 class="chat__user__info__name">User Name</h3>
-                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
-                        </div>
-                    </div>
-                    <time class="chat__user__date">Jun 12, 2020</time>
-                </a>
-            </li>
-            <li class="chat__list__link">
-                <a class="chat">
-                    <div class="chat__icon__and__info">
-                        <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
-                        <div class="chat__user__info">
-                            <h3 class="chat__user__info__name">User Name</h3>
-                            <p class="chat__user__info__lastMessage">chatchat chat chat chat chat chat chat</p>
-                        </div>
-                    </div>
-                    <time class="chat__user__date">Jun 12, 2020</time>
+                    <time class="chat__user__date">{{chat.lastActive.seconds * 1000 | date:'hh:mm, MMM d'}}</time>
                 </a>
             </li>
         </ul>
+        <div class="chat__list" *ngIf="searching">
+            <p *ngIf="foundUsersListEmpty" class="found__users__status">No users found for "{{searchValue}}"</p>
+            <p *ngIf="!foundUsersListEmpty" class="found__users__status">Found for "{{searchValue}}": {{foundUsersAmongAllUsers?.length}}</p>
+            <ul class="chat__list" *ngIf="!foundUsersListEmpty">
+                <li class="chat__list__link" *ngFor="let foundUser of foundUsersAmongAllUsers;">
+                    <a class="chat" [routerLink]="['/chats/', foundUser.id]">  
+                        <div class="chat__icon__and__info">
+                            <div class="chat__user__icon user__icon" [ngStyle]="{'backgroundImage': foundUser.photoUrl ? 'url(' + foundUser.photoUrl + ')' : 'url(../../../assets/images/default-profile-icon.png)'}"></div>
+                            <div class="chat__user__info">
+                                <h3 class="chat__user__info__name">{{foundUser.firstName + ' ' + foundUser.lastName}}</h3>
+                                <p class="chat__user__info__lastMessage">{{foundUser.email}}</p>
+                            </div> 
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
     <router-outlet></router-outlet>
 </section>

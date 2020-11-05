@@ -50,7 +50,7 @@
             background-size: cover;
             background-image: url(../../../assets/images/search-icon.png);
         }
-        #search__user__input{
+        #search__chats__input{
             border: 2px solid var(--border-color);
             width: 100%;
             padding: 10px;
@@ -76,10 +76,14 @@
     }
 }
 .chat__list{
-    // height: 100%;
+    flex-grow: 1;
     width: var(--chats-bar-width);
     overflow-y: auto;
     list-style: none;
+    .chats__empty{
+        text-align: center;
+        color: var(--main-text-color);
+    }
     .chat__list__link{
         cursor: pointer;
         &:hover{
@@ -122,6 +126,10 @@
                 line-height: 14px;
             }
         }
+    }
+    .found__users__status{
+        padding: 0 15px 15px;
+        border-bottom: 1px solid var(--border-color);
     }
     &::-webkit-scrollbar { 
         width: 5px;
