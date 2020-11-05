@@ -1,19 +1,23 @@
 <section class="login__wrapper">
-    <form class="login__form">
+    <form class="login__form" (submit)="logIn()">
         <div class="login__form__inputs">
             <h2>LogIn</h2>
-            <input type="text" placeholder="Login">
-            <input type="password" placeholder="Passord">
+            <input type="text" placeholder="Email" [(ngModel)]="emailInput" name="emailInput">
+            <div class="password_wrapper">
+                <input [(ngModel)]="passwordInput" name="passwordInput" [type]="showPassword ? 'text' : 'password'" placeholder="Password">
+                <button type="button" (click)="showPassword = !showPassword">{{showPassword ? 'Hide' : 'Show'}}</button>
+            </div>
         </div>
         <div class="login__form__submit">
             <button type="submit">LogIn</button>
+            <p style="color: red;">{{loginError}}</p>
             <p>Don't have an account yet? 
                 <a class="chat" [routerLink]="['/singup']">SingUp</a>
             </p>
         </div>
         <div class="login__form__pdoviders">
-            <button type="button">Login with Google</button>
-            <button type="button">Login with Facebook</button>
+            <button type="button" (click)="signInWithGoogle()">Login with Google</button>
+            <button type="button" (click)="signInWithFB()">Login with Facebook</button>
         </div>
     </form>
-</section>
+</section> 

@@ -71,6 +71,21 @@
                     color: var(--secondary-text-color);
                 }
             }
+            .password_wrapper{
+                position: relative;
+                button{
+                    position: absolute;
+                    right: 5px;
+                    bottom: 10px;
+                    background: none;
+                    border: none;
+                    outline: none;
+                    cursor: pointer;
+                    color: var(--secondary-text-color);
+                    font-weight: bold;
+                    font-size: 14px;
+                }
+            }
         }
         .login__form__submit{
             padding: var(--main-retreat);

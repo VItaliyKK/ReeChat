@@ -2,11 +2,12 @@
     <div class="chat__content">
         <div class="chat__content__header">
             <div class="user__info">
-                <div class="user__info__icon user__icon" [ngStyle]="{'backgroundImage': 'url(https://assets.chucknorris.host/img/avatar/chuck-norris.png)'}"></div>
-                <span class="user__info__name">user__info__name</span>
+                <div class="user__info__icon user__icon" [ngStyle]="{'backgroundImage': currentUser.photoUrl ? 'url('+ currentUser.photoUrl + ')' : 'url(../../../assets/images/default-profile-icon.png)'}"></div>
+                <span class="user__info__name">{{currentUser?.firstName + ' ' + currentUser?.lastName}}</span>
+                <button class="user__info__logout" (click)="logOut()"></button>
             </div>
             <div class="search__wrapper">
-                <input type="text" id="search__user__input" [(ngModel)]="ddd" name="ddd" placeholder="Search or start new chat">
+                <input type="text" id="search__user__input" [(ngModel)]="searchValue" name="searchValue" placeholder="Search or start new chat">
                 <label for="search__user__input"></label>
             </div>
         </div>

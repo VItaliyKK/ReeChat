@@ -1,19 +1,25 @@
 <section class="singup__wrapper">
-    <form class="singup__form">
+    <form class="singup__form" (submit)="singUp()">
         <div class="singup__form__inputs">
             <h2>SingUp</h2>
-            <input type="text" placeholder="Login">
-            <input type="password" placeholder="Passord">
+            <input [(ngModel)]="emailInput" name="emailInput" class="singup__form__element" type="email" placeholder="Email">
+            <input [(ngModel)]="firstNameInput" name="firstNameInput" class="singup__form__element" type="text" placeholder="First name">
+            <input [(ngModel)]="lastNameInput" name="lastNameInput" class="singup__form__element" type="text" placeholder="Last Name">
+            <div class="password_wrapper">
+                <input [(ngModel)]="passwordInput" name="passwordInput" class="singup__form__element" [type]="showPassword ? 'text' : 'password'" placeholder="Password">
+                <button type="button" (click)="showPassword = !showPassword">{{showPassword ? 'Hide' : 'Show'}}</button>
+            </div>
         </div>
         <div class="singup__form__submit">
             <button type="submit">SingUp</button>
+            <p style="color: red;">{{loginError}}</p>
             <p>Do you already have an account? 
                 <a class="chat" [routerLink]="['/login']">LogIn</a>
             </p>
         </div>
-        <div class="singup__form__pdoviders">
-            <button type="button">SingUp with Google</button>
-            <button type="button">SingUp with Facebook</button>
-        </div>
+        <!-- <div class="singup__form__pdoviders">
+            <button type="button" (click)="signInWithGoogle()">SingUp with Google</button>
+            <button type="button" (click)="signInWithFB()">SingUp with Facebook</button>
+        </div> -->
     </form>
 </section>

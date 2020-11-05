@@ -25,6 +25,16 @@
             color: var(--main-text-color);
             font-weight: bold;
             font-size: 16px;
+            flex-grow: 1;
+        }
+        .user__info__logout{
+            background: url(../../../assets/images/logout.png);
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background-size: cover;
+            width: 25px;
+            height: 25px;
         }
     }
     .search__wrapper{

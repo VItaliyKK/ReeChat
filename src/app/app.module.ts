@@ -14,6 +14,20 @@ import { SingupComponent } from './components/singup/singup.component';
 import { ChatsComponent } from './components/chats/chats.component';
 import { DialogComponent } from './components/dialog/dialog.component'; 
 import { environment } from 'src/environments/environment.prod';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+
+const providersList = [
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(
+      '200701676528-00cldrgpm9uiamq9ce7js66rnqcu97ij.apps.googleusercontent.com'
+    )
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('2783859335269240')
+  }
+]
 
 @NgModule({
   declarations: [
@@ -30,9 +44,18 @@ import { environment } from 'src/environments/environment.prod';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule, 
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: providersList
+      } as SocialAuthServiceConfig,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
