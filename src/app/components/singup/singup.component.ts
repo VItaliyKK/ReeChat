@@ -55,7 +55,8 @@ export class SingupComponent implements OnInit {
       firstName: this.firstNameInput,
       lastName: this.lastNameInput,
       id: '',
-      photoUrl: ''
+      photoUrl: '',
+      password: this.passwordInput
     };
     // create new user in list of registered users
     this.authServ.singUp(newUser).then( data => {

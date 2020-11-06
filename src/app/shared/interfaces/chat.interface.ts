@@ -1,6 +1,6 @@
 export interface IChat{
     lastMessage: string;
-    lastActive: string;
+    lastActive: Date;
     chatUsers: string [];
     id:string;
     photoUrl?: string;

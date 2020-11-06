@@ -28,6 +28,11 @@
         overflow-y: auto;
         display: flex;
         flex-direction: column-reverse;
+        .no__messages{
+            overflow: hidden;
+            text-align: center;
+            color: var(--main-text-color);
+        }
         .message__wrapper{
             display: flex;
             align-items: flex-end;

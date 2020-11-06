@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -19,15 +20,12 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
 const providersList = [
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(
-      '200701676528-00cldrgpm9uiamq9ce7js66rnqcu97ij.apps.googleusercontent.com'
-    )
-  },
-  {
+    provider: new GoogleLoginProvider('200701676528-00cldrgpm9uiamq9ce7js66rnqcu97ij.apps.googleusercontent.com')
+  },{ 
     id: FacebookLoginProvider.PROVIDER_ID,
     provider: new FacebookLoginProvider('2783859335269240')
   }
-]
+];
 
 @NgModule({
   declarations: [
@@ -45,7 +43,8 @@ const providersList = [
     AngularFirestoreModule,
     AngularFireAuthModule, 
     AngularFireStorageModule,
-    SocialLoginModule
+    SocialLoginModule,
+    HttpClientModule
   ],
   providers: [
     {
