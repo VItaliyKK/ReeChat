@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   emailInput:string = ''
   passwordInput:string = ''
   authStateListener: Subscription 
+  preloaderShow:boolean = false
 
   constructor(private socialAuthService: SocialAuthService, 
               private authServ: AuthService,
@@ -53,10 +54,12 @@ export class LoginComponent implements OnInit {
 
   // login user through the form
   logIn(){
+    this.preloaderShow = true
     this.authServ.logIn(this.emailInput, this.passwordInput)
       .then( data => { 
         // get user data
         this.mainService.getUserData(data.user.uid).subscribe( doc => {
+          this.preloaderShow = false
           this.loginError = ''
           this.authServ.loggedIn = true
           this.authServ.currentUser = doc.data()
@@ -66,7 +69,7 @@ export class LoginComponent implements OnInit {
       })
       .catch(error => {
         this.loginError = error.message
-      }).finally( () => {
+        this.preloaderShow = false
       })
   };
 }

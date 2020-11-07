@@ -16,6 +16,7 @@ import { ChatsComponent } from './components/chats/chats.component';
 import { DialogComponent } from './components/dialog/dialog.component'; 
 import { environment } from 'src/environments/environment.prod';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+import { PreloaderComponent } from './components/preloader/preloader.component';
 
 const providersList = [
   {
@@ -33,7 +34,8 @@ const providersList = [
     LoginComponent,
     SingupComponent,
     ChatsComponent,
-    DialogComponent
+    DialogComponent,
+    PreloaderComponent
   ],
   imports: [
     BrowserModule,

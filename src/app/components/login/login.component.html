@@ -9,7 +9,8 @@
             </div>
         </div>
         <div class="login__form__submit">
-            <button type="submit">LogIn</button>
+            <app-preloader *ngIf="preloaderShow"></app-preloader>
+            <button *ngIf="!preloaderShow" type="submit">LogIn</button>
             <p style="color: red;">{{loginError}}</p>
             <p>Don't have an account yet? 
                 <a class="chat" [routerLink]="['/singup']">SingUp</a>

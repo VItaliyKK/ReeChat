@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     width: 100vw;
+    overflow: hidden;
 }
 .chat__content{
     display: flex;
@@ -9,7 +10,7 @@
     width: var(--chats-bar-width);
     height: 100vh;
     border-right: 2px solid var(--border-color);
-    transition: all 0.2s;
+    transition: all 0.2s linear;
     overflow: hidden;
 }
 .chat__content__header{
@@ -41,24 +42,34 @@
         margin-top: 25px;
         position: relative;
         label{
-            position: absolute;
             left: 8px;
+            background-image: url(../../../assets/images/search-icon.png);
+        }
+        label, .search__chats__input__clear{
+            position: absolute;
             top: 50%;
             transform: translateY(-50%);
             width: 15px;
             height: 15px;
             background-size: cover;
-            background-image: url(../../../assets/images/search-icon.png);
+        }
+        .search__chats__input__clear{
+            right: 10px;
+            background-image: url(../../../assets/images/clear-input.png);
+            background-color: transparent;
+            outline: none;
+            border: none;
+            cursor: pointer;
         }
         #search__chats__input{
             border: 2px solid var(--border-color);
             width: 100%;
-            padding: 10px;
-            padding-left: 25px;
+            padding: 10px 25px;
             border-radius: var(--border-radius);
             outline: none;
             color: var(--secondary-text-color);
             background-color: var(--main-color);
+            transition: all 0.1s linear;
             &::placeholder{
                 color: var(--secondary-text-color);
             }
@@ -145,6 +156,9 @@
     .found__users__status{
         padding: 0 15px 15px;
         border-bottom: 1px solid var(--border-color);
+        span{
+            font-weight: bold;
+        }
     }
     &::-webkit-scrollbar { 
         width: 5px;
@@ -161,4 +175,23 @@
     justify-content: center;
     color: var(--main-text-color);
     font-size: 20px;
+    overflow: hidden;
+}
+
+@media screen and (max-width : 800px) {
+    .chat__no__selected{
+        display: none;
+    }
+    .chat__content{
+        width: 100vw;
+        &.chat__selected{
+            width: 0;
+            .chat__content__header, .chat__header, .chat__list{
+                width: 0;
+            }
+        }
+        .chat__content__header, .chat__header, .chat__list{
+            width: 100vw;
+        }
+    }
 }

@@ -1,0 +1,40 @@
+.preloader__wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    user-select: none;
+    .preloader__element{
+        margin: 0 5px;
+        border-radius: 50%;
+        background-color: transparent;
+        width: 15px;
+        height: 0;
+        animation: preloader__element 0.8s linear infinite;
+        &.el__left, &.el__right{
+            animation-delay: 0s;
+        }
+        &.el__center{
+            animation-delay: 0.4s;
+        }
+    }
+}
+
+@keyframes preloader__element {
+    0% {
+        width: 0;
+        height: 0;
+        background-color: transparent;
+    }
+    50% {
+        width: 15px;
+        height: 15px;
+        background-color: var(--main-text-color);
+    }
+    100% {
+        width: 0;
+        height: 0;
+        background-color: transparent;
+    }
+  }

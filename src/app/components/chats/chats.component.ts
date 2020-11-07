@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { SocialUser } from 'angularx-social-login';
 import { IChat } from 'src/app/shared/interfaces/chat.interface';
 import { IUser } from 'src/app/shared/interfaces/user.interface';
@@ -21,15 +21,16 @@ export class ChatsComponent implements OnInit {
   foundUsersListEmpty: boolean = true
   searching:boolean = false
   chatNoSelected: boolean = true
+  preloaderShow: boolean = false
 
-  constructor( private authServ: AuthService,
+  constructor(private authServ: AuthService,
               private chatsService: ChatsService, 
               private firestore: AngularFirestore,
               private mainService: MainService,
               private router: Router) { 
       this.router.events.subscribe( (e) => {
         if (e instanceof NavigationEnd){
-          //show messages when no chat is selected
+          //show message "Select any chat" when no chat is selected
           this.chatNoSelected = this.router.url.lastIndexOf('/') == 0 ? true : false
         }
       })
@@ -42,7 +43,8 @@ export class ChatsComponent implements OnInit {
   };
 
   logOut():void{
-    if (this.authServ.loggedIn){ // if login was via Facebook or Google
+    // if login has been via Facebook or Google
+    if (this.authServ.loggedIn){ 
       this.authServ.signOut()
       this.authServ.loggedIn = false
     }
@@ -52,7 +54,9 @@ export class ChatsComponent implements OnInit {
 
   // get all chats user
   getChats(userID: string){
+    this.preloaderShow = true
     this.chatsService.getChats(userID).onSnapshot( data => {
+      this.preloaderShow = false
       // check if user have any chats
       if (!data.empty) { 
         this.chats = []
@@ -74,6 +78,7 @@ export class ChatsComponent implements OnInit {
   // search by values: lastName and firstName
   onChangeSearchChats(){
     if (this.searchValue){
+      this.preloaderShow = true
       this.searching = true
       this.foundUsersAmongAllUsers.length = 0
       this.foundUsersListEmpty = true
@@ -83,9 +88,12 @@ export class ChatsComponent implements OnInit {
       fieldsSearch.forEach( field => { 
         this.firestore.collection("users").ref.orderBy(field).startAt(val).endAt(val +"\uf8ff")
         .get().then( docs => {
+          this.preloaderShow = false
+          // if users have been found
           if (!docs.empty) {
             this.foundUsersListEmpty = false
             docs.forEach( doc => {
+              // add each found user in list
               const isExistInList = this.foundUsersAmongAllUsers.findIndex(p => p.id == (doc.data() as IUser).id)
               isExistInList != -1
                   ? this.foundUsersAmongAllUsers.splice(isExistInList, 1, doc.data() as IUser)
@@ -108,12 +116,14 @@ export class ChatsComponent implements OnInit {
         this.clearSearch()
         this.router.navigateByUrl('/chats/' + chatAlreadyExist.id)
       } else { // -- if chat does not exist yet
+        // **create new chat
         let newChat:IChat = {
           id: this.firestore.createId(),
           chatUsers: [selectedUserID, this.currentUser.id],
           lastMessage: '',
           lastActive: new Date()
         }
+        // add new chat in firebase 'chats'
         this.chatsService.createNewChat(newChat).then( () => {
           this.clearSearch()
           this.router.navigateByUrl('/chats/' + newChat.id)
@@ -122,12 +132,17 @@ export class ChatsComponent implements OnInit {
     }
   };
 
-  checkIfChatAlreadyExist(idUser1:string, idUser2:string):IChat | undefined{
+  checkIfChatAlreadyExist(idUser1:string, idUser2:string):IChat{
     let chatIsExist = this.chats.find( chat => {
       return chat.chatUsers.includes(idUser1) && chat.chatUsers.includes(idUser2)
     });
     return chatIsExist 
   };
+
+  searchChatsInputClear(){
+    this.searchValue = ''
+    this.clearSearch()
+  }
 
   clearSearch(){
     this.searching = false

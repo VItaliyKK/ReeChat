@@ -7,6 +7,7 @@ import { IChat } from 'src/app/shared/interfaces/chat.interface';
 import { IMessage } from 'src/app/shared/interfaces/message.interface';
 import { IUser } from 'src/app/shared/interfaces/user.interface';
 import { MainService } from 'src/app/shared/services/main.service';
+import { ReplyChuckNorrisParams } from 'src/app/shared/types/replyChuckNorrisParams.type';
 import { DialogService } from '../../shared/services/dialog.service';
 
 @Component({
@@ -19,8 +20,10 @@ export class DialogComponent implements OnInit {
   messages: IMessage[] = []
   newMessageValue:string = ''
   chatUser: IUser | SocialUser
-  chuckNorrisRequest
+  currentUserId:string
   dialogListener:Subscription
+  preloaderShow: boolean = false
+  setWidthDialogFull: boolean = false
 
   constructor(private router: Router,
               private firestore:AngularFirestore,
@@ -29,9 +32,11 @@ export class DialogComponent implements OnInit {
               private activeRoute: ActivatedRoute) { 
     this.router.events.subscribe( (e) => {
       if (e instanceof NavigationEnd){
+        // subscribe on changes url for updating current chat
         if (this.router.url.includes('chats') && this.activeRoute.snapshot.paramMap.get('idDialog')) {
           this.dialogID = this.activeRoute.snapshot.paramMap.get('idDialog')
           this.messages = []
+          this.preloaderShow = true
           this.getDialog()
           this.getMessages()
         }
@@ -41,15 +46,21 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
   };
 
+  ngOnDetroy(){
+    this.dialogListener.unsubscribe()
+  }
+
   getDialog(){ 
+    // get current dialog
     this.dialogListener = this.dialogService.getDialog(this.dialogID).subscribe( data => {
       const dialog: IChat = data.data()
-      const idUser = dialog.chatUsers[0] == JSON.parse(localStorage.getItem('user')).id 
+      this.currentUserId = dialog.chatUsers[0] == JSON.parse(localStorage.getItem('user')).id 
           ? dialog.chatUsers[1]
           : dialog.chatUsers[0]
-      this.mainService.getUserData(idUser).toPromise().then( docs => {
+      // get user data (first name, last name, photoUrl, id)    
+      this.mainService.getUserData(this.currentUserId).toPromise().then( docs => {
+        this.preloaderShow = false
         this.chatUser = docs.data(); 
-        // this.getMessages()
       })
     })
   }
@@ -58,12 +69,14 @@ export class DialogComponent implements OnInit {
   getMessages(){
     this.dialogService.getMessages(this.dialogID).onSnapshot( dataMess => {
       if (!dataMess.empty){
-        //if get updated messages with current dialog
+        //if got updated messages for current dialog
         if (dataMess.docs[0].data().idDialog == this.dialogID) {
           this.messages = []
         }
         dataMess.forEach( docs => {
           const message: IMessage = docs.data() as IMessage
+          //check if firebase updated messages for current dialog
+          // ** if you switch to another chat, firebase can send messages from the previous chat
           if (message.idDialog == this.dialogID){
             this.messages.push(message)
           }
@@ -72,6 +85,7 @@ export class DialogComponent implements OnInit {
     })
   };
 
+  // send message by auth user
   sendMessage(){
     if (this.newMessageValue) {
       let newMessage: IMessage = {
@@ -88,28 +102,39 @@ export class DialogComponent implements OnInit {
         this.dialogService.updateNewMessage(this.dialogID, newMessage.value, newMessage.date)
         .then( () => {
           this.newMessageValue = ''
+          // create a delayed response (10 seconds) using ChuckNorrisAPI
            setTimeout((params) => {
             this.replyChuckNorris(params)
-          }, 5000, {'chatID': this.dialogID, 'whoSended': this.chatUser.id});
+          }, 10000, {'chatID': this.dialogID, 'whoSended': this.chatUser.id});
         })
       }).catch( error => {
+        // if message didn`t sended
         console.log(error.message);
       }) 
     }
   };
 
-  replyChuckNorris(any){
+  //send message via "enter"
+  sendMessageViaKeyboardEvent(e:KeyboardEvent){
+    if (e && e.key == 'Enter') {
+      this.sendMessage()
+    }
+  }
+
+  replyChuckNorris(paramsMessage: ReplyChuckNorrisParams){
+    // get Chuck Norris reply
     this.dialogService.replyChuckNorris().then( res => {
       let newMessageChuckNorris: IMessage = {
         date: new Date(),
         id: this.firestore.createId(),
-        idDialog: any.chatID,
+        idDialog: paramsMessage.chatID,
         value: (res as any).value,
-        sendBy: any.whoSended
+        sendBy: paramsMessage.whoSended
       }
-      this.dialogService.sendNewMessage(newMessageChuckNorris).then( d => {
-        //update lastMessage and lastActive for chat
-        this.dialogService.updateNewMessage(any.chatID, newMessageChuckNorris.value, newMessageChuckNorris.date)
+      // add Chuck Norris's reply to Firebase "message"
+      this.dialogService.sendNewMessage(newMessageChuckNorris).then( () => {
+        // update lastMessage and lastActive for chat
+        this.dialogService.updateNewMessage(paramsMessage.chatID, newMessageChuckNorris.value, newMessageChuckNorris.date)
       })
     })
   };

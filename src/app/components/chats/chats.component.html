@@ -1,5 +1,5 @@
 <section class="chats__wrapper">
-    <div class="chat__content">
+    <div class="chat__content" [ngClass]="{'chat__selected': !chatNoSelected}">
         <div class="chat__content__header">
             <div class="user__info">
                 <div class="user__info__icon user__icon" [ngStyle]="{'backgroundImage': currentUser.photoUrl ? 'url('+ currentUser.photoUrl + ')' : 'url(../../../assets/images/default-profile-icon.png)'}"></div>
@@ -9,13 +9,15 @@
             <div class="search__wrapper">
                 <input type="text" id="search__chats__input" (input)="onChangeSearchChats()" [(ngModel)]="searchValue" name="searchValue" placeholder="Search or start new chat">
                 <label for="search__chats__input"></label>
+                <button class="search__chats__input__clear" (click)="searchChatsInputClear()"></button>
             </div>
         </div>
         <div class="chat__header">
             <h2>Chats</h2>
         </div>
-        <ul class="chat__list" *ngIf="!searching">
-            <p *ngIf="chats.length == 0" class="chats__empty">You have not any chats</p>
+        <app-preloader *ngIf="preloaderShow"></app-preloader>
+        <ul class="chat__list" *ngIf="!searching && !preloaderShow">
+            <p *ngIf="chats.length == 0 && !preloaderShow" class="chats__empty">You have not any chats</p>
             <li class="chat__list__link" *ngFor="let chat of chats ">
                 <a class="chat" [routerLink]="['/chats/', chat.id]" routerLinkActive="active">  
                     <div class="chat__icon__and__info">
@@ -30,8 +32,8 @@
             </li>
         </ul>
         <div class="chat__list" *ngIf="searching">
-            <p *ngIf="foundUsersListEmpty" class="found__users__status">No users found for "{{searchValue}}"</p>
-            <p *ngIf="!foundUsersListEmpty" class="found__users__status">Found for "{{searchValue}}": {{foundUsersAmongAllUsers?.length}}</p>
+            <p *ngIf="foundUsersListEmpty && !preloaderShow" class="found__users__status">No users found for "<span>{{searchValue}}</span>"</p>
+            <p *ngIf="!foundUsersListEmpty && !preloaderShow" class="found__users__status">Found for "<span>{{searchValue}}</span>": {{foundUsersAmongAllUsers?.length}}</p>
             <ul class="chat__list" *ngIf="!foundUsersListEmpty">
                 <li class="chat__list__link" *ngFor="let foundUser of foundUsersAmongAllUsers;">
                     <button class="chat" (click)="goToChat(foundUser?.id)">  
