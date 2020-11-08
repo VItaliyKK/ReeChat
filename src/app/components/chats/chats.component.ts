@@ -138,12 +138,13 @@ export class ChatsComponent implements OnInit {
     });
     return chatIsExist 
   };
-
+  
   searchChatsInputClear(){
     this.searchValue = ''
     this.clearSearch()
   }
 
+  // reset search parameters
   clearSearch(){
     this.searching = false
     this.foundUsersAmongAllUsers.length = 0
