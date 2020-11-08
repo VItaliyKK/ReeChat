@@ -1,27 +1,14 @@
 # ReeChat
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+## The purpose of the project: 
 
-## Development server
+Create a program where user has the ability to send messages and then receive responses from the Chuck Norris API via 10 seconds. 
+Every user has the opportunity to try to search for users who are in the database
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Additional functionality:
 
-## Code scaffolding
+In this project was added login with Google and Facebook
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Preview app
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+<img src='https://firebasestorage.googleapis.com/v0/b/instagram-clone-d22b8.appspot.com/o/posts%2FxqtPZozyMOLccTB0yUEa.jpeg?alt=media&token=59e247b8-f077-4f50-8a1f-5d791175bbbf' width='600' alt='preview app'>
